@@ -5,6 +5,7 @@
 	etcd {{ $zone := split (getenv "PLUGIN_ZONES") "," }} {{ range $zone }} {{ . }} {{ end }} {
 		stubzones
 		path {{ getenv "PLUGIN_ROOT_PATH" }}
+		endpoint {{ $endpoint := split (getenv "PLUGIN_ETCD_ENDPOINTS") "," }} {{ range $endpoint }} {{ . }} {{ end }}
 		endpoint {{ getenv "PLUGIN_ETCD_ENDPOINTS" }}
 		{{ if exists (getenv "PLUGIN_UPSTREAM") }}
 		upstream {{ getenv "PLUGIN_UPSTREAM" }}
