@@ -12,5 +12,5 @@ RUN mv confd-0.15.0-linux-amd64 /usr/bin/confd && \
 	mkdir -p /etc/confd/{conf.d,templates}
 ADD Corefile.toml /etc/confd/conf.d/
 ADD Corefile.tmpl /etc/confd/templates/
-ENTRYPOINT confd -backend rancher -prefix /2015-12-19 
+ENTRYPOINT confd -onetime -backend rancher -prefix /2015-12-19 
 
