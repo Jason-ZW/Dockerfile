@@ -1,37 +1,37 @@
 .:{{ getenv "PUBLISH_PORT" }} {
-	{{ if gt (len (getenv "PLUGIN_FORWARDS")) 0 }}
-	proxy . {{ $addr := split (getenv "PLUGIN_FORWARDS") "," }}{{ range $addr }} {{ . }} {{ end }}
-	{{ end }}
-	etcd {{ $zone := split (getenv "PLUGIN_ZONES") "," }} {{ range $zone }} {{ . }} {{ end }} {
-		stubzones
-		path {{ getenv "PLUGIN_ROOT_PATH" }}
-		endpoint {{ $endpoint := split (getenv "PLUGIN_ETCD_ENDPOINTS") "," }} {{ range $endpoint }} {{ . }} {{ end }}
-		{{ if exists (getenv "PLUGIN_UPSTREAM") }}
-		upstream {{ getenv "PLUGIN_UPSTREAM" }}
-		{{ end }}
-	}
-	{{ if eq (getenv "PLUGIN_LOADBALANCE") "true" }}
-	loadbalance round_robin
-	{{ end }}
-	{{ if eq (getenv "PLUGIN_LOG") "true" }}
-	log
-	{{ end }}
-	{{ if eq (getenv "PLUGIN_ERRORS") "true" }}
-	errors
-	{{ end }}
-	{{ if eq (getenv "PLUGIN_HEALTH") "true" }}
-	health
-	{{ end }}
-	{{ if eq (getenv "PLUGIN_PROM") "true" }}
-	prometheus 0.0.0.0:9153
-	{{ end }}
-	{{ if eq (getenv "PLUGIN_PROXY") "true" }}
-	proxy . /etc/resolv.conf
-	{{ end }}
-	{{ if eq (getenv "PLUGIN_CACHE") "true" }}
-	cache 30
-	{{ end }}
-        {{ if gt (len (getenv "PLUGIN_REVERSES")) 0 }}
-	{{ getenv "PLUGIN_REVERSES" }}
-	{{ end }}
+    {{- if gt (len (getenv "PLUGIN_FORWARDS")) 0 }}
+    proxy . {{ $addr := split (getenv "PLUGIN_FORWARDS") "," }}{{ range $addr }} {{ . }} {{ end }}
+    {{- end }}
+    etcd {{ $zone := split (getenv "PLUGIN_ZONES") "," }} {{ range $zone }} {{ . }} {{ end }} {
+        stubzones
+        path {{ getenv "PLUGIN_ROOT_PATH" }}
+        endpoint {{ $endpoint := split (getenv "PLUGIN_ETCD_ENDPOINTS") "," }} {{ range $endpoint }} {{ . }} {{ end }}
+        {{- if gt (len (getenv "PLUGIN_UPSTREAM")) 0 }}
+        upstream {{ getenv "PLUGIN_UPSTREAM" }}
+        {{- end }}
+    }
+    {{- if eq (getenv "PLUGIN_LOADBALANCE") "true"}}
+    loadbalance round_robin
+    {{- end}}
+    {{- if eq (getenv "PLUGIN_LOG") "true"}}
+    log
+    {{- end}}
+    {{- if eq (getenv "PLUGIN_ERRORS") "true"}}
+    errors
+    {{- end}}
+    {{- if eq (getenv "PLUGIN_HEALTH") "true"}}
+    health
+    {{- end}}
+    {{- if eq (getenv "PLUGIN_PROM") "true"}}
+    prometheus 0.0.0.0:9153
+    {{- end}}
+    {{- if eq (getenv "PLUGIN_PROXY") "true"}}
+    proxy . /etc/resolv.conf
+    {{- end}}
+    {{- if eq (getenv "PLUGIN_CACHE") "true"}}
+    cache 30
+    {{- end}}
+    {{- if gt (len (getenv "PLUGIN_REVERSES")) 0}}
+    {{ getenv "PLUGIN_REVERSES" }}
+    {{- end}}
 }
